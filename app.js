@@ -14,11 +14,14 @@ var xScale = d3.scalePoint()
               .domain(data.map(d=>d.word))
               .range([0, svgWidth])
 
+var yScale = d3.scaleLinear()
+              .domain(d3.extent(data, d=>d.ratio))
+              .range([0, svgHeight])
 
 // Filter data for null values
 
 removeWord = event => {
-  console.log(event)
+  
 }
 
 activeWordList
@@ -35,7 +38,7 @@ svg
     .enter()
     .append("rect")
       .attr("x", d => xScale(d.word))
-      .attr("y", "100")
+      .attr("y", d => svgHeight - yScale(d.ratio))
       .attr("width", "10")
-      .attr("height", "200")
+      .attr("height", d => yScale(d.ratio))
       .attr("fill", "blue")
