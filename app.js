@@ -1,21 +1,25 @@
 const svgWidth = 500
 const svgHeight = 500
 const svgPadding = 50
+data = data.filter(d => d.ratio !== null)
 
 var svg = d3.select("svg")
-          .attr("width", svgWidth)
-          .attr("height", svgHeight)
+          .attr("width", svgWidth + svgPadding)
+          .attr("height", svgHeight + svgPadding)
           .style("border", "1px solid blue")
 
 var activeWordList = d3.select("#active-word-list")
+
+var xScale = d3.scalePoint()
+              .domain(data.map(d=>d.word))
+              .range([0, svgWidth])
+
 
 // Filter data for null values
 
 removeWord = event => {
   console.log(event)
 }
-
-data = data.filter(d => d.ratio !== null)
 
 activeWordList
             .selectAll("button")
@@ -30,8 +34,8 @@ svg
   .data(data, d=>d.word)
     .enter()
     .append("rect")
-      .attr("x", "100")
+      .attr("x", d => xScale(d.word))
       .attr("y", "100")
-      .attr("width", "100")
+      .attr("width", "10")
       .attr("height", "200")
       .attr("fill", "blue")
