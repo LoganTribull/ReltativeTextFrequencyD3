@@ -46,6 +46,15 @@ var yScale = d3.scaleLinear()
               .domain(d3.extent(activeData, d=>d.ratio))
               .range([0, svgHeight])
 
+var xAxis = d3.axisBottom(xScale)
+var yAxis = d3.axisLeft(yScale)
+
+svg
+  .append("g")
+    // .attr("transform", "translate(0, " + (svgHeight) + ")")
+    .attr("transform", `translate(0, ${svgHeight})`)
+  .call(xAxis)
+
 // Filter data for null values
 
 var bars = svg
