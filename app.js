@@ -24,4 +24,14 @@ activeWordList
             .append("button")
             .text(d=>d.word)
             .on("click", removeWord)
-  
+
+svg
+  .selectAll("rect")
+  .data(data, d=>d.word)
+    .enter()
+    .append("rect")
+      .attr("x", "100")
+      .attr("y", "100")
+      .attr("width", "100")
+      .attr("height", "200")
+      .attr("fill", "blue")
