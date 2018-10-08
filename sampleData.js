@@ -1,5 +1,5 @@
 
-data = [
+let data = [
   {word:"dog", ratio:3},
   {word:"establishment", ratio:5},
   {word:"test", ratio:null},
