@@ -15,3 +15,13 @@ function cleanTextInput(text, wordsToRemove = []){
   let cleanedText = removePunctuation(text)
   return tokenize(cleanedText, remove)
 }
+
+function getWordFrequency (words){
+  let wordFrequencies = {}
+  words.forEach(word => {
+    if(wordFrequencies[word] === undefined) wordFrequencies[word] = 1
+    else wordFrequencies[word]++
+  })
+
+  return wordFrequencies
+}
