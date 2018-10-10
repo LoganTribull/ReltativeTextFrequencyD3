@@ -35,3 +35,9 @@ function wordFrequencyDictToArray(wordFrequencies){
 )
 return wordFrequencyData
 }
+
+function getDataFromString(string, wordsToRemove){
+  let cleanedText = cleanTextInput(string, wordsToRemove)
+  let data = wordFrequencyDictToArray(getWordFrequency(cleanedText))
+  return data
+}
