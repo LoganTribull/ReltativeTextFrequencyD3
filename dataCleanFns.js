@@ -25,3 +25,13 @@ function getWordFrequency (words){
 
   return wordFrequencies
 }
+
+function wordFrequencyDictToArray(wordFrequencies){
+  const wordFrequencyData = Object.keys(wordFrequencies).map(k => (
+    {word:k,
+     frequency:wordFrequencies[k]
+    }
+  )
+)
+return wordFrequencyData
+}
