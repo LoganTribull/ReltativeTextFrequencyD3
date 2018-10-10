@@ -15,6 +15,12 @@ var svg = d3.select("svg")
           .style("border", "1px solid blue")
 
     svg
+      .append("text")
+      .attr("x", "50")
+      .attr("y", "50")
+      .text('hey')
+
+    svg
           .append("g")
           .attr("transform", "translate(0, " + (svgHeight) + ")")
           .attr("class", "xaxis")
@@ -28,9 +34,12 @@ var yScale = d3.scaleLinear()
 
 var xAxis = d3.axisBottom(xScale)
 var yAxis = d3.axisLeft(yScale)
+d3.select("#new-text-btn")
+  .attr("color", "blue")
+  .on("click", updateForNewComparison)
 
 
-
+// make chart and fill words with default data
 draw(activeData)
 fillWords(activeData, true)
 
@@ -43,23 +52,36 @@ function draw(data){
   xScale.domain(activeData.map(d=>d.word))
   yScale.domain(d3.extent(activeData, d=>d.ratio))
 
-  console.log(yScale(4))
 
   // add in the axis
   svg.select(".xaxis").transition().duration(300)
      .call(d3.axisBottom(xScale))
 
+  //join bars to new active data
   var bars = svg.selectAll("rect").data(activeData, d=> d.word)
 
-  bars.exit().remove().transition().duration(400)
+  //update section
+  bars
+    .transition()
+    .duration(300)
+      .attr("x", d=>xScale(d.word))
+      .attr("width", "10")
+      .attr("y", d=> svgHeight - yScale(d.ratio))
+      .attr("height", d=>yScale(d.ratio))
 
-  var bars = svg
-    .selectAll("rect")
-    .data(activeData, d=>d.word)
+  //enter section
+  bars
       .enter()
       .append("rect")
-        .attr("y", d => svgHeight - yScale(d.ratio))
-        .attr("height", d => yScale(d.ratio))
+        .transition()
+        .duration(300)
+          .attr("x", d=>xScale(d.word))
+          .attr("width", "10")
+          .attr("y", d=> svgHeight - yScale(d.ratio))
+          .attr("height", d=>yScale(d.ratio))
+
+  //exit section
+  bars.exit().remove()
 
   bars.transition().duration(1000)
     .attr("x", d=>xScale(d.word))
@@ -104,4 +126,10 @@ function activateWord(event){
   draw(activeData)
   fillWords(activeData, true)
   fillWords(inactiveData, false)
+}
+
+function updateForNewComparison(event){
+  debugger
+  let text1 = d3.select("#text1").text()
+  let text2 = d3.select("#text2").text()
 }
