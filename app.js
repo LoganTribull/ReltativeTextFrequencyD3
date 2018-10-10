@@ -30,7 +30,7 @@ var xScale = d3.scalePoint()
                .range([0, svgWidth])
 
 var yScale = d3.scaleLinear()
-               .range([0, svgHeight])
+               .range([svgHeight, 0])
 
 var xAxis = d3.axisBottom(xScale)
 var yAxis = d3.axisLeft(yScale)
@@ -66,8 +66,8 @@ function draw(data){
     .duration(300)
       .attr("x", d=>xScale(d.word))
       .attr("width", "10")
-      .attr("y", d=> svgHeight - yScale(d.ratio))
-      .attr("height", d=>yScale(d.ratio))
+      .attr("y", d=> yScale(d.ratio))
+      .attr("height", d=>svgHeight - yScale(d.ratio))
 
   //enter section
   bars
@@ -77,17 +77,11 @@ function draw(data){
         .duration(300)
           .attr("x", d=>xScale(d.word))
           .attr("width", "10")
-          .attr("y", d=> svgHeight - yScale(d.ratio))
-          .attr("height", d=>yScale(d.ratio))
+          .attr("y", d=> yScale(d.ratio))
+          .attr("height", d=> svgHeight - yScale(d.ratio))
 
   //exit section
-  bars.exit().remove()
-
-  bars.transition().duration(1000)
-    .attr("x", d=>xScale(d.word))
-    .attr("width", "10")
-    .attr("y", d=> svgHeight - yScale(d.ratio))
-    .attr("height", d=>yScale(d.ratio))
+  bars.exit().remove().transition().duration(300)
 }
 
 function fillWords(data, active){
@@ -129,7 +123,14 @@ function activateWord(event){
 }
 
 function updateForNewComparison(event){
-  debugger
-  let text1 = d3.select("#text1").text()
-  let text2 = d3.select("#text2").text()
+  let text1 = d3.select("#text1").property("value")
+  let text2 = d3.select("#text2").property("value")
+  let text1Freq = getDataFromString(text1)
+  let text2Freq = getDataFromString(text2)
+  let relativeFrequency = mergeFrequencyDicts(text1Freq, text2Freq)
+  activeData = wordFrequencyDictToArray(relativeFrequency)
+  inactiveData = []
+  draw(activeData)
+  fillWords(activeData, true)
+  fillWords(inactiveData, false)
 }

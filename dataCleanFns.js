@@ -22,6 +22,9 @@ function getWordFrequency (words){
     if(wordFrequencies[word] === undefined) wordFrequencies[word] = 1
     else wordFrequencies[word]++
   })
+  // debugger
+  // words.forEach(word => wordFrequencies[word] = wordFrequencies[word]/words.length)
+
 
   return wordFrequencies
 }
@@ -29,7 +32,7 @@ function getWordFrequency (words){
 function wordFrequencyDictToArray(wordFrequencies){
   const wordFrequencyData = Object.keys(wordFrequencies).map(k => (
     {word:k,
-     frequency:wordFrequencies[k]
+     ratio:wordFrequencies[k]
     }
   )
 )
@@ -38,6 +41,20 @@ return wordFrequencyData
 
 function getDataFromString(string, wordsToRemove){
   let cleanedText = cleanTextInput(string, wordsToRemove)
-  let data = wordFrequencyDictToArray(getWordFrequency(cleanedText))
+  let data = getWordFrequency(cleanedText)
   return data
+}
+
+
+function mergeFrequencyDicts(dict1, dict2){
+  // first what words are in both articles
+  dict1Keys = Object.keys(dict1)
+  relativeFrequency = {}
+  dict1Keys.forEach(key => {
+    if(key in dict2){
+      relativeFrequency[key] = dict1[key]/dict2[key]
+    }
+  })
+
+  return relativeFrequency
 }
