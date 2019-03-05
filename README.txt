@@ -4,6 +4,5 @@ There are many ways to to do this. But often people start by looking at the rela
 
 This is often laborious and annoying as it is often done by making one matplotlib chart at a time.
 
-The following application will make analyzing relative text frequency much easier
-
-and will allow users to dynamically activate and inactivate words in the text to and see how the relative frequencies change
+The following application makes analyzing relative text frequency much easier
+and allows users to dynamically activate and inactivate words in the text to and see how the relative frequencies change
